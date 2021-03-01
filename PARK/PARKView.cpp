@@ -29,6 +29,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CPARKView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_COMMAND(IID_CONSTSUM, &CPARKView::OnConstsum)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -66,7 +67,14 @@ void CPARKView::OnDraw(CDC* pDC)
 	for (y = 0; y < 256; y++) {
 		for (x = 0; x < 256; x++) {
 			pDC->SetPixel(x, y, RGB(pDoc->m_OpenImg[y][x],
-				pDoc->m_OpenImg[y][x], pDoc->m_OpenImg[y][x]));
+			pDoc->m_OpenImg[y][x], pDoc->m_OpenImg[y][x]));
+		}
+	}
+
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			pDC->SetPixel(x + 300, y, RGB(pDoc->m_Resultimg[y][x],
+				pDoc->m_Resultimg[y][x], pDoc->m_Resultimg[y][x]));
 		}
 	}
 }
@@ -134,3 +142,22 @@ CPARKDoc* CPARKView::GetDocument() const // 디버그되지 않은 버전은 인
 
 
 // CPARKView 메시지 처리기
+
+
+void CPARKView::OnConstsum()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	int x, y, data;
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			data = pDoc->m_OpenImg[y][x] + 100;
+			
+			if (data > 255) pDoc->m_Resultimg[y][x] = 255;
+			else pDoc->m_Resultimg[y][x] = data;
+		}	
+	}
+	Invalidate(FALSE); // 화면 갱신
+}
