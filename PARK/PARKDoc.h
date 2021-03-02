@@ -23,6 +23,7 @@ public:
 	// 2. 연산 중간 결과를 저장 할 때도 사용.
 	unsigned char m_ImageBuf1[256][256]; 
 	unsigned char m_ImageBuf2[256][256];
+	unsigned int histoin[256];  // 입력 영상의 히스토그램 저장
 
 // 재정의입니다.
 public:
@@ -54,4 +55,5 @@ protected:
 public:
 	void DoubleLoad();
 	void m_slideSUM(int slideconst);
+	void HistoIn();
 };

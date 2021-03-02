@@ -35,6 +35,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_IMAGESUM, &CPARKView::OnImagesum)
 	ON_COMMAND(ID_SUM_VARCONST, &CPARKView::OnSumVarconst)
 	ON_COMMAND(ID_SLIDE_SUM, &CPARKView::OnSlideSum)
+	ON_COMMAND(ID_HISTOIN, &CPARKView::OnHistoin)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -80,6 +81,23 @@ void CPARKView::OnDraw(CDC* pDC)
 		for (x = 0; x < 256; x++) {
 			pDC->SetPixel(x + 300, y, RGB(pDoc->m_Resultimg[y][x],
 				pDoc->m_Resultimg[y][x], pDoc->m_Resultimg[y][x]));
+		}
+	}
+
+	if (hin == 1) {
+		// Histgram을 나타낼 그래프를 그려준다.
+		pDC->MoveTo(0, 260);
+		pDC->LineTo(0, 350);			// Y축
+		pDC->MoveTo(0, 350);	
+		pDC->LineTo(257, 350);			// X축
+
+		for (x = 0; x < 256; x++) {
+			y = pDoc->histoin[x] / 20;
+			if (y > 90) y = 260;
+			else y = 350 - y;
+
+			pDC->MoveTo(x, 350);
+			pDC->LineTo(x, y);
 		}
 	}
 }
@@ -224,4 +242,16 @@ void CPARKView::OnSlideSum()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CConstCntrDlg psumCntrDlg;
 	psumCntrDlg.DoModal();
+}
+
+
+void CPARKView::OnHistoin()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->HistoIn();   // 도큐먼트 함수 호출
+	hin = 1;
+	Invalidate(FALSE);
 }

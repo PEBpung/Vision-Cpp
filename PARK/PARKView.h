@@ -3,8 +3,6 @@
 //
 
 #pragma once
-
-
 class CPARKView : public CView
 {
 protected: // serialization에서만 만들어집니다.
@@ -17,7 +15,7 @@ public:
 
 // 작업입니다.
 public:
-
+	int			hin;		//히스토그램 표스 플래그
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.
@@ -49,6 +47,7 @@ public:
 	int m_ViewConst;
 	afx_msg void OnSumVarconst();
 	afx_msg void OnSlideSum();
+	afx_msg void OnHistoin();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

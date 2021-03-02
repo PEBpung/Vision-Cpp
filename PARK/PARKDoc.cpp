@@ -186,3 +186,19 @@ void CPARKDoc::m_slideSUM(int slideconst)
 	}
 	UpdateAllViews(FALSE);
 }
+
+
+void CPARKDoc::HistoIn()
+{
+	// TODO: 여기에 구현 코드 추가.
+	int			x, y, d;
+
+	for (y = 0; y < 256; y++) histoin[y] = 0; // 배열값 초기화
+
+	for (y = 0; y < 256; y++){
+		for (x = 0; x < 256; x++){
+			d = (int)m_OpenImg[y][x];
+			histoin[d] ++; // 해당 빈도수 값을 1씩 증가
+		}
+	}
+}
