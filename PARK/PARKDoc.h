@@ -53,4 +53,5 @@ protected:
 #endif // SHARED_HANDLERS
 public:
 	void DoubleLoad();
+	void m_slideSUM(int slideconst);
 };

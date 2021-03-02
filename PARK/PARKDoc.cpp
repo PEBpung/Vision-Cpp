@@ -171,3 +171,18 @@ void CPARKDoc::DoubleLoad()
 		file.Close();
 	}
 }
+
+
+void CPARKDoc::m_slideSUM(int slideconst)
+{
+	int		x, y, data;
+
+	for(y = 0; y < 255; y++) {
+		for (x = 0; x < 255; x++) {
+			data = m_OpenImg[y][x] + slideconst;
+			if (data < 255) m_Resultimg[y][x] = 255;
+			else m_Resultimg[y][x] = data;
+		}
+	}
+	UpdateAllViews(FALSE);
+}

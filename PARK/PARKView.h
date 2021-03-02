@@ -48,6 +48,7 @@ public:
 	afx_msg void OnImagesum();
 	int m_ViewConst;
 	afx_msg void OnSumVarconst();
+	afx_msg void OnSlideSum();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

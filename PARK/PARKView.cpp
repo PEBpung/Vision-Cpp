@@ -13,6 +13,7 @@
 #include "PARKDoc.h"
 #include "PARKView.h"
 #include "CCONST.h"
+#include "CConstCntrDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,6 +34,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(IID_CONSTSUM, &CPARKView::OnConstsum)
 	ON_COMMAND(ID_IMAGESUM, &CPARKView::OnImagesum)
 	ON_COMMAND(ID_SUM_VARCONST, &CPARKView::OnSumVarconst)
+	ON_COMMAND(ID_SLIDE_SUM, &CPARKView::OnSlideSum)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -215,4 +217,11 @@ void CPARKView::OnSumVarconst()
 		}
 	}
 	Invalidate(FALSE); // 화면갱신
+}
+
+void CPARKView::OnSlideSum()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CConstCntrDlg psumCntrDlg;
+	psumCntrDlg.DoModal();
 }
