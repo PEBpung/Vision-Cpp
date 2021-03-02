@@ -24,6 +24,7 @@ public:
 	unsigned char m_ImageBuf1[256][256]; 
 	unsigned char m_ImageBuf2[256][256];
 	unsigned int histoin[256];  // 입력 영상의 히스토그램 저장
+	unsigned int histoout[256]; // 출력 영상의 히스토그램 저장
 
 // 재정의입니다.
 public:
@@ -56,4 +57,5 @@ public:
 	void DoubleLoad();
 	void m_slideSUM(int slideconst);
 	void HistoIn();
+	void HistoOut();
 };

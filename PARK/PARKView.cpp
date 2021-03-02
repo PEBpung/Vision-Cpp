@@ -36,6 +36,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_SUM_VARCONST, &CPARKView::OnSumVarconst)
 	ON_COMMAND(ID_SLIDE_SUM, &CPARKView::OnSlideSum)
 	ON_COMMAND(ID_HISTOIN, &CPARKView::OnHistoin)
+	ON_COMMAND(ID_HISTO_OUT, &CPARKView::OnHistoOut)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -98,6 +99,26 @@ void CPARKView::OnDraw(CDC* pDC)
 
 			pDC->MoveTo(x, 350);
 			pDC->LineTo(x, y);
+		}
+	}
+	if (hout == 1) {
+		for (y = 256; y < 360; y++) {
+			for (x = 300; x < 560; x++) {
+				pDC->SetPixel(x, y, RGB(255, 255, 255));
+			}
+		}
+		pDC->MoveTo(300, 260);
+		pDC->LineTo(300, 350);			// Y축
+		pDC->MoveTo(300, 350);
+		pDC->LineTo(557, 350);			// X축
+
+		for (x = 0; x < 256; x++) {
+			y = pDoc->histoout[x] / 20;
+			if (y > 90) y = 260;
+			else y = 350 - y;
+
+			pDC->MoveTo(x + 300, 350);
+			pDC->LineTo(x + 300, y);
 		}
 	}
 }
@@ -253,5 +274,17 @@ void CPARKView::OnHistoin()
 
 	pDoc->HistoIn();   // 도큐먼트 함수 호출
 	hin = 1;
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnHistoOut()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->HistoOut();
+	hout = 1;
 	Invalidate(FALSE);
 }

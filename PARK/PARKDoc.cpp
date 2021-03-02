@@ -202,3 +202,19 @@ void CPARKDoc::HistoIn()
 		}
 	}
 }
+
+
+void CPARKDoc::HistoOut()
+{
+	// TODO: 여기에 구현 코드 추가.
+	int			x, y, d;
+	
+	for (y = 0; y < 256; y++) histoout[y] = 0;
+
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			d = (int)m_Resultimg[y][x];
+			histoout[d]++;
+		}
+	}
+}

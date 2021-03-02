@@ -15,7 +15,9 @@ public:
 
 // 작업입니다.
 public:
-	int			hin;		//히스토그램 표스 플래그
+	int			hin;		// 입력 히스토그램 표시 플래그
+	int			hout;		// 출력 히스토그램 표시 플래그
+
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.
@@ -48,6 +50,7 @@ public:
 	afx_msg void OnSumVarconst();
 	afx_msg void OnSlideSum();
 	afx_msg void OnHistoin();
+	afx_msg void OnHistoOut();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전
