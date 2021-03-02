@@ -144,3 +144,30 @@ void CPARKDoc::Dump(CDumpContext& dc) const
 
 
 // CPARKDoc 명령
+
+// 두개 영상 파일을 오픈하는 함수
+void CPARKDoc::DoubleLoad()
+{
+	// TODO: 여기에 구현 코드 추가.
+	// 첫 번째 영상을 읽기 위한 대화상자 변수
+	CFileDialog dlg1(TRUE); 
+	AfxMessageBox(_T("Select First Image"));
+
+	if (dlg1.DoModal() == IDOK) {
+		CFile file;
+		file.Open(dlg1.GetPathName(), CFile::modeRead); //파일 열기
+		file.Read(m_ImageBuf1, 256 * 256); // 파일 읽기
+		file.Close();
+	}
+
+	// 두 번째 영상을 읽기 위한 대화상자 변수
+	CFileDialog dlg2(TRUE);
+	AfxMessageBox(_T("Select Second Image"));
+
+	if (dlg2.DoModal() == IDOK) {
+		CFile file;
+		file.Open(dlg2.GetPathName(), CFile::modeRead); //파일 열기
+		file.Read(m_ImageBuf2, sizeof(m_ImageBuf2));
+		file.Close();
+	}
+}

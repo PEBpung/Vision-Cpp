@@ -45,6 +45,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnConstsum();
+	afx_msg void OnImagesum();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

@@ -19,6 +19,10 @@ public:
 public:
 	unsigned char m_OpenImg[256][256];
 	unsigned char m_Resultimg[256][256];
+	// 1. 두 영상의 데이터를 저장하기 위해 사용.
+	// 2. 연산 중간 결과를 저장 할 때도 사용.
+	unsigned char m_ImageBuf1[256][256]; 
+	unsigned char m_ImageBuf2[256][256];
 
 // 재정의입니다.
 public:
@@ -47,4 +51,6 @@ protected:
 	// 검색 처리기에 대한 검색 콘텐츠를 설정하는 도우미 함수
 	void SetSearchContent(const CString& value);
 #endif // SHARED_HANDLERS
+public:
+	void DoubleLoad();
 };

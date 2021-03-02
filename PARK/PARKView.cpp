@@ -30,6 +30,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_COMMAND(IID_CONSTSUM, &CPARKView::OnConstsum)
+	ON_COMMAND(ID_IMAGESUM, &CPARKView::OnImagesum)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -158,6 +159,32 @@ void CPARKView::OnConstsum()
 			if (data > 255) pDoc->m_Resultimg[y][x] = 255;
 			else pDoc->m_Resultimg[y][x] = data;
 		}	
+	}
+	Invalidate(FALSE); // 화면 갱신
+}
+
+
+void CPARKView::OnImagesum()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	int			x, y, data;
+	// Document 파일에 사용된 변수를 사용하기 위해서 포인터 선언
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	// Document 파일의 DoubleLoad 함수 호출
+	pDoc->DoubleLoad();
+
+	for(y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			data = pDoc->m_ImageBuf1[y][x] + pDoc->m_ImageBuf2[y][x];
+
+			// Seturateion Operating
+			if (data > 255) pDoc->m_Resultimg[y][x] = 255;
+			else pDoc->m_Resultimg[y][x] = data;
+
+			// Wrap Operating 
+			pDoc->m_OpenImg[y][x] = data;
+		}
 	}
 	Invalidate(FALSE); // 화면 갱신
 }
