@@ -1,15 +1,15 @@
 ﻿#pragma once
 
 
-// CCIBST 대화 상자
+// CCONST 대화 상자
 
-class CCIBST : public CDialog
+class CCONST : public CDialog
 {
-	DECLARE_DYNAMIC(CCIBST)
+	DECLARE_DYNAMIC(CCONST)
 
 public:
-	CCIBST(CWnd* pParent = nullptr);   // 표준 생성자입니다.
-	virtual ~CCIBST();
+	CCONST(CWnd* pParent = nullptr);   // 표준 생성자입니다.
+	virtual ~CCONST();
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME

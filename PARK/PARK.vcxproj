@@ -183,7 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CCIBST.h" />
+    <ClInclude Include="CCONST.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="FileView.h" />
@@ -200,7 +200,7 @@
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CCIBST.cpp" />
+    <ClCompile Include="CCONST.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="FileView.cpp" />

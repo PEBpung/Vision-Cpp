@@ -12,6 +12,7 @@
 
 #include "PARKDoc.h"
 #include "PARKView.h"
+#include "CCONST.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,6 +32,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_WM_RBUTTONUP()
 	ON_COMMAND(IID_CONSTSUM, &CPARKView::OnConstsum)
 	ON_COMMAND(ID_IMAGESUM, &CPARKView::OnImagesum)
+	ON_COMMAND(ID_SUM_VARCONST, &CPARKView::OnSumVarconst)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -187,4 +189,30 @@ void CPARKView::OnImagesum()
 		}
 	}
 	Invalidate(FALSE); // 화면 갱신
+}
+
+
+void CPARKView::OnSumVarconst()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	int x, y, data;
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	CCONST* pCONST = new CCONST;
+
+	if (pCONST->DoModal() == IDOK) {
+		m_ViewConst = pCONST->m_Const;
+	}
+
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			data = pDoc->m_OpenImg[y][x] + m_ViewConst;
+
+			//Saturation Operating
+			if (data > 255) pDoc->m_Resultimg[y][x] = 255;
+			else pDoc->m_Resultimg[y][x] = data;
+		}
+	}
+	Invalidate(FALSE); // 화면갱신
 }
