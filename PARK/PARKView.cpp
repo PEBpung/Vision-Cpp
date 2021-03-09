@@ -38,6 +38,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_HISTOIN, &CPARKView::OnHistoin)
 	ON_COMMAND(ID_HISTO_OUT, &CPARKView::OnHistoOut)
 	ON_COMMAND(ID_HISTOEQAL, &CPARKView::OnHistoeqal)
+	ON_COMMAND(ID_STRETCH, &CPARKView::OnStretch)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -298,5 +299,16 @@ void CPARKView::OnHistoeqal()
 	ASSERT_VALID(pDoc);
 
 	pDoc->Histoequal();
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnStretch()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Stretch();
 	Invalidate(FALSE);
 }

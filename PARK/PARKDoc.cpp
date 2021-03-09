@@ -264,3 +264,63 @@ void CPARKDoc::Histoequal()
 		}
 	}
 }
+
+
+void CPARKDoc::Stretch()
+{
+	// TODO: 여기에 구현 코드 추가.
+	int x, y, low, high, n, m;
+	int hist[256];
+	unsigned char LUT[256];
+	float scale;
+
+	// 변수 초기화
+	for (x = 0; x < 256; x++) hist[x] = 0;
+	
+	// 히스토그램 생성
+	for (y = 0; y < 256; y++)
+	{
+		for (x = 0; x < 256; x++)
+		{
+			n = m_OpenImg[y][x];
+			hist[n]++;
+		}
+	}
+	// 가장 낮은 농도값 추출
+	for (x = 0; x < 256; x++)
+	{
+		if (hist[x] != 0)
+		{
+			low = x;
+			break;
+		}
+	}
+	// 가장 높은 농도값 추출
+	for (x = 255; x > 0; x--)
+	{
+		if (hist[x] != 0)
+		{
+			high = x;
+			break;
+		}
+	}
+	
+	// 룩업 테이블 작성
+	for (x = 0; x < low; x++) LUT[x] = 0;
+	for (x = high; x < 256; x++) LUT[x] = 255;
+
+	scale = 255.0 / (float)(high - low);
+	for ( x = low; x < high; x++)
+	{
+		LUT[x] = (unsigned char)((x - low) * scale);
+	}
+
+	for ( y = 0; y < 256; y++)
+	{
+		for ( x = 0; x < 256; x++)
+		{
+			m = m_OpenImg[y][x];
+			m_Resultimg[y][x] = LUT[m];
+		}
+	}
+}

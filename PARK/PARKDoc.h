@@ -59,4 +59,5 @@ public:
 	void HistoIn();
 	void HistoOut();
 	void Histoequal();
+	void Stretch();
 };
