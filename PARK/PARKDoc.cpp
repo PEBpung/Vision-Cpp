@@ -218,3 +218,49 @@ void CPARKDoc::HistoOut()
 		}
 	}
 }
+
+
+void CPARKDoc::Histoequal()
+{
+	// TODO: 여기에 구현 코드 추가.
+	int x, y, d, nn;
+	int k = 0, sum = 0, total_pix = 0;
+	int hist[256];
+	int sum_hist[256];
+
+	// 변수 초기화
+	for ( x = 0; x < 256; x++)
+	{
+		hist[x] = 0;
+		sum_hist[x] = 0;
+	}
+	// 히스토그램 생성
+	for ( y = 0; y < 256; y++)
+	{
+		for ( x = 0; x < 256; x++)
+		{
+			k = m_OpenImg[y][x];
+			hist[k]++; 
+		}
+	}
+	// 누적 히스토그램 구함.
+	for ( x = 0; x < 256; x++)
+	{
+		sum = sum + hist[x];
+		sum_hist[x] = sum;
+	}
+	// 히스토그램 평활화
+	total_pix = 256 * 256;
+	nn = total_pix / 256; // 균일 분포시 화소 수 (nt / bm)
+	for ( y = 0; y < 256; y++)
+	{
+		for ( x = 0; x < 256; x++)
+		{
+			k = m_OpenImg[y][x];
+			if (sum_hist[k] == 0) d = 0;
+			else d = (sum_hist[k] - 1) / nn;
+
+			m_Resultimg[y][x] = (unsigned char)d;
+		}
+	}
+}

@@ -37,6 +37,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_SLIDE_SUM, &CPARKView::OnSlideSum)
 	ON_COMMAND(ID_HISTOIN, &CPARKView::OnHistoin)
 	ON_COMMAND(ID_HISTO_OUT, &CPARKView::OnHistoOut)
+	ON_COMMAND(ID_HISTOEQAL, &CPARKView::OnHistoeqal)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -286,5 +287,16 @@ void CPARKView::OnHistoOut()
 
 	pDoc->HistoOut();
 	hout = 1;
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnHistoeqal()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Histoequal();
 	Invalidate(FALSE);
 }

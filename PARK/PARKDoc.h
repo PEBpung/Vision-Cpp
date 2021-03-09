@@ -58,4 +58,5 @@ public:
 	void m_slideSUM(int slideconst);
 	void HistoIn();
 	void HistoOut();
+	void Histoequal();
 };
