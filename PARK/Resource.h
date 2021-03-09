@@ -86,10 +86,12 @@
 #define IDS_EDIT_MENU                   306
 #define IDD_DIALOG_CONST                310
 #define IDD_SLIDE_CONST                 312
+#define IDD_THRESHOLD                   314
 #define IDC_EDIT_CONST                  1000
 #define IDC_BUTTON1                     1001
 #define IDC_EDIT1                       1002
 #define IDC_SLIDER1                     1003
+#define IDC_EDIT_THRESH                 1004
 #define ID_32771                        32771
 #define ID_CONSTSUM                     32772
 #define ID_32773                        32773
@@ -108,14 +110,16 @@
 #define ID_HISTOEQAL                    32786
 #define ID_32787                        32787
 #define ID_STRETCH                      32788
+#define ID_32789                        32789
+#define ID_BINARY                       32790
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        314
-#define _APS_NEXT_COMMAND_VALUE         32789
-#define _APS_NEXT_CONTROL_VALUE         1004
+#define _APS_NEXT_RESOURCE_VALUE        316
+#define _APS_NEXT_COMMAND_VALUE         32791
+#define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

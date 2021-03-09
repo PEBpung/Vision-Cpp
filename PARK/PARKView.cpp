@@ -14,6 +14,7 @@
 #include "PARKView.h"
 #include "CCONST.h"
 #include "CConstCntrDlg.h"
+#include "CTHIRD.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -39,6 +40,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_HISTO_OUT, &CPARKView::OnHistoOut)
 	ON_COMMAND(ID_HISTOEQAL, &CPARKView::OnHistoeqal)
 	ON_COMMAND(ID_STRETCH, &CPARKView::OnStretch)
+	ON_COMMAND(ID_BINARY, &CPARKView::OnBinary)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -311,4 +313,31 @@ void CPARKView::OnStretch()
 
 	pDoc->Stretch();
 	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnBinary()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	int x, y;
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	
+	CTHIRD* pTHRED = new CTHIRD;
+
+	if (pTHRED->DoModal() == IDOK) {
+		m_ViewConst = pTHRED->m_Thrd;
+	}
+
+	for ( y = 0; y < 256; y++)
+	{
+		for ( x = 0; x < 256; x++)
+		{
+			if (pDoc->m_OpenImg[y][x] > m_ViewConst)
+				pDoc->m_Resultimg[y][x] = 255;
+			else pDoc->m_Resultimg[y][x] = 0;
+		}
+	}
+	Invalidate(FALSE);
+
 }
