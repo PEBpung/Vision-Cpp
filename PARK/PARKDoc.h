@@ -60,4 +60,5 @@ public:
 	void HistoOut();
 	void Histoequal();
 	void Stretch();
+	void AutoBin1();
 };

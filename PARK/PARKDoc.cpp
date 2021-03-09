@@ -324,3 +324,80 @@ void CPARKDoc::Stretch()
 		}
 	}
 }
+
+
+void CPARKDoc::AutoBin1()
+{
+	// TODO: 여기에 구현 코드 추가.
+	int x, y, i, t;
+	float prob[256];
+	// 변수 초기화
+	for ( i = 0; i < 256; i++)
+	{
+		histoin[i] = 0;
+		prob[i] = 0.0f;
+	}
+	// 히스토그램 생성
+	for ( y = 0; y < 256; y++)
+	{
+		for ( x = 0; x < 256; x++)
+		{
+			t = m_OpenImg[y][x];
+			histoin[t]++;
+		}
+	}
+	// 밝기 확률값 P(i) 생성
+	for (i = 0; i < 256; i++) prob[i] = (float)histoin[i] / 65536.0F;
+
+	float wsv_min = 1000000.0f;
+	float wsv_u1, wsv_u2, wsv_s1, wsv_s2;
+	int wsv_t;
+
+	for ( t = 0; t < 256; t++)
+	{
+		// 확률값 q1, q2 계산.
+		float q1 = 0.0f, q2 = 0.0f; 
+		for (i = 0; i < t; i++) q1 += prob[i];
+		for (i = t; i < 256; i++) q2 += prob[i];
+		if (q1 == 0 || q2 == 0) continue;
+
+		// 평균값 u1, u2 계산.
+		float u1 = 0.0f, u2 = 0.0f;
+		for (i = 0; i < t; i++) u1 += i * prob[i];
+		u1 /= q1;
+		for (i = t; i < 256; i++) u2 += i * prob[i];
+		u2 /= q2;
+
+		// 분산값 s1, s2 계산.
+		float s1 = 0.0f, s2 = 0.0f;
+		for (i = 0; i < t; i++) s1 += (i - u1) * (i - u1) * prob[i];
+		s1 /= q1;
+
+		for (i = t; i < 256; i++) s2 += (i - u2) * (i - u2) * prob[i];
+		s2 /= q2;
+		float wsv = q1 * s1 + q2 * s2;
+		// 최소값을 갱신하는 t값 저장.
+		if (wsv < wsv_min) {
+			wsv_min = wsv;
+			wsv_t = t;
+			wsv_u1 = u1;
+			wsv_u2 = u2;
+			wsv_s1 = s1;
+			wsv_s2 = s2;
+		}
+	}
+	// 결과값 출력
+	CString strTemp;
+	strTemp.Format(_T("Optimal Threshold : % 3d\nMean : \
+		% 7.3f, % 7.3f\nVariance : % 7.3f, % 7.3f"), \
+		wsv_t, wsv_u1, wsv_u2, wsv_s1, wsv_s2);
+	AfxMessageBox(strTemp);
+
+	// 2치화
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			if (m_OpenImg[y][x] < wsv_t) m_Resultimg[y][x] = 0;
+			else m_Resultimg[y][x] = 255;
+		}
+	}
+}

@@ -41,6 +41,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_HISTOEQAL, &CPARKView::OnHistoeqal)
 	ON_COMMAND(ID_STRETCH, &CPARKView::OnStretch)
 	ON_COMMAND(ID_BINARY, &CPARKView::OnBinary)
+	ON_COMMAND(ID_AUTO_BIN, &CPARKView::OnAutoBin)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -340,4 +341,15 @@ void CPARKView::OnBinary()
 	}
 	Invalidate(FALSE);
 
+}
+
+
+void CPARKView::OnAutoBin()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->AutoBin1();
+	Invalidate(FALSE);
 }
