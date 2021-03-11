@@ -403,7 +403,7 @@ void CPARKDoc::AutoBin1()
 }
 
 
-void CPARKDoc::m_slideBinarySUM(int slidebinary)
+void CPARKDoc::m_slideBinary(int slidebinary)
 {
 	// TODO: 여기에 구현 코드 추가.
 	int x, y;

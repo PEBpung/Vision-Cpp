@@ -61,5 +61,5 @@ public:
 	void Histoequal();
 	void Stretch();
 	void AutoBin1();
-	void m_slideBinarySUM(int slidebinary);
+	void m_slideBinary(int slidebinary);
 };

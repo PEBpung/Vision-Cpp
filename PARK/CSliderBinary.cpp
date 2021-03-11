@@ -78,6 +78,6 @@ void CSliderBinary::OnCustomdrawSliderBin(NMHDR* pNMHDR, LRESULT* pResult)
 	m_binaryDisp = m_sliderBinary.GetPos();
 	UpdateData(FALSE);
 
-	pDoc->m_slideBinarySUM(m_binaryDisp);
+	pDoc->m_slideBinary(m_binaryDisp);
 
 }
