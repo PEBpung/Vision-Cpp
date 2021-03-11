@@ -55,6 +55,7 @@ public:
 	afx_msg void OnStretch();
 	afx_msg void OnBinary();
 	afx_msg void OnAutoBin();
+	afx_msg void OnSlideBin();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

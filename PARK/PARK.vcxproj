@@ -187,6 +187,7 @@
     <ClInclude Include="CConstCntrDlg.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="ClassView.h" />
+    <ClInclude Include="CSliderBinary.h" />
     <ClInclude Include="CTHIRD.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="CConstCntrDlg.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="ClassView.cpp" />
+    <ClCompile Include="CSliderBinary.cpp" />
     <ClCompile Include="CTHIRD.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />

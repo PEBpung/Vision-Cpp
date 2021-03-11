@@ -15,6 +15,7 @@
 #include "CCONST.h"
 #include "CConstCntrDlg.h"
 #include "CTHIRD.h"
+#include "CSliderBinary.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -42,6 +43,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_STRETCH, &CPARKView::OnStretch)
 	ON_COMMAND(ID_BINARY, &CPARKView::OnBinary)
 	ON_COMMAND(ID_AUTO_BIN, &CPARKView::OnAutoBin)
+	ON_COMMAND(ID_SLIDE_BIN, &CPARKView::OnSlideBin)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -352,4 +354,12 @@ void CPARKView::OnAutoBin()
 
 	pDoc->AutoBin1();
 	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnSlideBin()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CSliderBinary pSlider;
+	pSlider.DoModal();
 }

@@ -401,3 +401,20 @@ void CPARKDoc::AutoBin1()
 		}
 	}
 }
+
+
+void CPARKDoc::m_slideBinarySUM(int slidebinary)
+{
+	// TODO: 여기에 구현 코드 추가.
+	int x, y;
+	
+	for ( y = 0; y < 256; y++)
+	{
+		for ( x = 0; x < 256; x++)
+		{
+			if (m_OpenImg[y][x] > slidebinary) m_Resultimg[y][x] = 255;
+			else m_Resultimg[y][x] = 0;
+		}
+	}
+	UpdateAllViews(FALSE);
+}
