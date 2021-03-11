@@ -418,3 +418,61 @@ void CPARKDoc::m_slideBinary(int slidebinary)
 	}
 	UpdateAllViews(FALSE);
 }
+
+
+void CPARKDoc::HistoInXY()
+{
+	int x, y;
+	// 히스토그램 배열 초기화.
+	for (x = 0; x < 256; x++) histoinX[x] = 0;
+	for (y = 0; y < 256; y++) histoinY[y] = 0;
+
+	// 입력 영상의 수직 라인에 대한 히스토그램을 구한다.
+	for (x = 0; x < 256; x++)
+	{
+		for (y = 0; y < 256; y++)
+		{
+			if (m_OpenImg[y][x] == 255) histoinX[x] ++;
+		}
+	}
+	
+	// 입력 영상의 수평 라인에 대한 히스토그램을 구한다.
+	for (y = 0; y < 256; y++)
+	{
+		for (x = 0; x < 256; x++)
+		{
+			if (m_OpenImg[y][x] == 255) histoinY[y] ++;
+		}
+	}
+	
+	UpdateAllViews(FALSE);
+}
+
+
+void CPARKDoc::HistoOutXY()
+{
+	int x, y;
+	// 히스토그램 배열 초기화.
+	for (x = 0; x < 256; x++) histoutX[x] = 0;
+	for (y = 0; y < 256; y++) histoutY[y] = 0;
+
+	// 출력 영상의 수직 라인에 대한 히스토그램을 구한다.
+	for (x = 0; x < 256; x++)
+	{
+		for (y = 0; y < 256; y++)
+		{
+			if (m_Resultimg[y][x] == 255) histoutX[x] ++;
+		}
+	}
+
+	// 출력 영상의 수평 라인에 대한 히스토그램을 구한다.
+	for (y = 0; y < 256; y++)
+	{
+		for (x = 0; x < 256; x++)
+		{
+			if (m_Resultimg[y][x] == 255) histoutY[y] ++;
+		}
+	}
+
+	UpdateAllViews(FALSE);
+}

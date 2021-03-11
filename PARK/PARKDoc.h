@@ -26,6 +26,11 @@ public:
 	unsigned int histoin[256];  // 입력 영상의 히스토그램 저장
 	unsigned int histoout[256]; // 출력 영상의 히스토그램 저장
 
+	unsigned int histoinX[256];  // 입력 영상의 세로축 히스토그램 
+	unsigned int histoinY[256];  // 입력 영상의 가로축 히스토그램
+	unsigned int histoutX[256];  // 출력 영상의 세로축 히스토그램
+	unsigned int histoutY[256];  // 출력 영상의 가로축 히스토그램
+
 // 재정의입니다.
 public:
 	virtual BOOL OnNewDocument();
@@ -62,4 +67,6 @@ public:
 	void Stretch();
 	void AutoBin1();
 	void m_slideBinary(int slidebinary);
+	void HistoInXY();
+	void HistoOutXY();
 };

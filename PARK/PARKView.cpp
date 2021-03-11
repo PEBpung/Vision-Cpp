@@ -44,6 +44,8 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_BINARY, &CPARKView::OnBinary)
 	ON_COMMAND(ID_AUTO_BIN, &CPARKView::OnAutoBin)
 	ON_COMMAND(ID_SLIDE_BIN, &CPARKView::OnSlideBin)
+	ON_COMMAND(ID_HISTOIN_XY, &CPARKView::OnHistoinXy)
+	ON_COMMAND(ID_HISTOUT_XY, &CPARKView::OnHistoutXy)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -87,7 +89,7 @@ void CPARKView::OnDraw(CDC* pDC)
 
 	for (y = 0; y < 256; y++) {
 		for (x = 0; x < 256; x++) {
-			pDC->SetPixel(x + 300, y, RGB(pDoc->m_Resultimg[y][x],
+			pDC->SetPixel(x + 400, y, RGB(pDoc->m_Resultimg[y][x],
 				pDoc->m_Resultimg[y][x], pDoc->m_Resultimg[y][x]));
 		}
 	}
@@ -126,6 +128,71 @@ void CPARKView::OnDraw(CDC* pDC)
 
 			pDC->MoveTo(x + 300, 350);
 			pDC->LineTo(x + 300, y);
+		}
+	}
+
+	// 입력 영상 히스토그램
+	if (hinxy == 1) {
+		// 입력 영상의 수직 라인 그래프를 그려준다.
+		pDC->MoveTo(0, 260);
+		pDC->LineTo(0, 350);			// Y축
+		pDC->MoveTo(0, 350);
+		pDC->LineTo(257, 350);			// X축
+
+		for (x = 0; x < 256; x++) {
+			y = pDoc->histoinX[x] / 3;
+			if (y > 90) y = 260;
+			else y = 350 - y;
+
+			pDC->MoveTo(x, 350);
+			pDC->LineTo(x, y);
+		}
+
+		// 입력 영상의 수평 라인 그래프를 그려준다.
+		pDC->MoveTo(260, 0);
+		pDC->LineTo(350, 0);			// Y축
+		pDC->MoveTo(260, 0);
+		pDC->LineTo(260, 257);			// X축
+
+		for (y = 0; y < 256; y++) {
+			x = pDoc->histoinY[y] / 3;
+			if (x > 90) x = 350;
+			else x = 260 + x;
+
+			pDC->MoveTo(260, y);
+			pDC->LineTo(x, y);
+		}
+	}
+	// 출력 영상 히스토그램
+	if (houtxy == 1) {
+		// 출력 영상의 수직 라인 그래프를 그려준다.
+		pDC->MoveTo(400, 260);
+		pDC->LineTo(400, 350);			// Y축
+		pDC->MoveTo(400, 350);
+		pDC->LineTo(657, 350);			// X축
+
+		for (x = 0; x < 256; x++) {
+			y = pDoc->histoutX[x] / 3;
+			if (y > 90) y = 260;
+			else y = 350 - y;
+
+			pDC->MoveTo(x + 400, 350);
+			pDC->LineTo(x + 400, y);
+		}
+
+		// 출력 영상의 수평 라인 그래프를 그려준다.
+		pDC->MoveTo(660, 0);
+		pDC->LineTo(750, 0);			// Y축
+		pDC->MoveTo(660, 0);
+		pDC->LineTo(660, 257);			// X축
+
+		for (y = 0; y < 256; y++) {
+			x = pDoc->histoutY[y] / 3;
+			if (x > 90) x = 350;
+			else x = 260 + x;
+
+			pDC->MoveTo(660, y);
+			pDC->LineTo(x + 400, y);
 		}
 	}
 }
@@ -337,8 +404,8 @@ void CPARKView::OnBinary()
 		for ( x = 0; x < 256; x++)
 		{
 			if (pDoc->m_OpenImg[y][x] > m_ViewConst)
-				pDoc->m_Resultimg[y][x] = 255;
-			else pDoc->m_Resultimg[y][x] = 0;
+				pDoc->m_OpenImg[y][x] = 255;
+			else pDoc->m_OpenImg[y][x] = 0;
 		}
 	}
 	Invalidate(FALSE);
@@ -362,4 +429,28 @@ void CPARKView::OnSlideBin()
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 	CSliderBinary pSlider;
 	pSlider.DoModal();
+}
+
+
+void CPARKView::OnHistoinXy()
+{
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	// 입력 영상의 히스토그램 구하는 함수 호출.
+	pDoc->HistoInXY();
+	hinxy = 1;
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnHistoutXy()
+{
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	// 출력 영상의 히스토그램 구하는 함수 호출.
+	pDoc->HistoOutXY();
+	houtxy = 1;
+	Invalidate(FALSE);
 }

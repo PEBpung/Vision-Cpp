@@ -17,6 +17,8 @@ public:
 public:
 	int			hin;		// 입력 히스토그램 표시 플래그
 	int			hout;		// 출력 히스토그램 표시 플래그
+	int			hinxy;      // 입력 가로세로 히스토그램 표시 플래그
+	int			houtxy;     // 출력 가로세로 히스토그램 표시 플래그
 
 // 재정의입니다.
 public:
@@ -56,6 +58,8 @@ public:
 	afx_msg void OnBinary();
 	afx_msg void OnAutoBin();
 	afx_msg void OnSlideBin();
+	afx_msg void OnHistoinXy();
+	afx_msg void OnHistoutXy();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전
