@@ -61,6 +61,7 @@ public:
 	afx_msg void OnHistoinXy();
 	afx_msg void OnHistoutXy();
 	afx_msg void OnLowpass1();
+	afx_msg void OnPrewittX();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

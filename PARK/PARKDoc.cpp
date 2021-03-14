@@ -502,3 +502,26 @@ void CPARKDoc::Lowpass1()
 		}
 	}
 }
+
+
+void CPARKDoc::PrewittX()
+{
+	int x, y, p, q;
+	int sum, filter1[3][3] = { {-1, 0, 1}, {-1, 0, 1}, {-1, 0, 1} };
+
+	for (y = 0; y < 255; y++)
+	{
+		for (x = 0; x < 255; x++)
+		{
+			sum = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					// 이미지와 필터를 차례대로 합성곱 해준다.
+					sum += filter1[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+			
+			sum = abs(sum);
+			if (sum > 255) m_Resultimg[y][x] = 255;
+			else m_Resultimg[y][x] = sum;
+		}
+	}
+}
