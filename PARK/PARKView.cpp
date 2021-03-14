@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_SLIDE_BIN, &CPARKView::OnSlideBin)
 	ON_COMMAND(ID_HISTOIN_XY, &CPARKView::OnHistoinXy)
 	ON_COMMAND(ID_HISTOUT_XY, &CPARKView::OnHistoutXy)
+	ON_COMMAND(ID_LOWPASS1, &CPARKView::OnLowpass1)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -89,7 +90,7 @@ void CPARKView::OnDraw(CDC* pDC)
 
 	for (y = 0; y < 256; y++) {
 		for (x = 0; x < 256; x++) {
-			pDC->SetPixel(x + 400, y, RGB(pDoc->m_Resultimg[y][x],
+			pDC->SetPixel(x + 300, y, RGB(pDoc->m_Resultimg[y][x],
 				pDoc->m_Resultimg[y][x], pDoc->m_Resultimg[y][x]));
 		}
 	}
@@ -452,5 +453,17 @@ void CPARKView::OnHistoutXy()
 	// 출력 영상의 히스토그램 구하는 함수 호출.
 	pDoc->HistoOutXY();
 	houtxy = 1;
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnLowpass1()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Lowpass1();
+
 	Invalidate(FALSE);
 }

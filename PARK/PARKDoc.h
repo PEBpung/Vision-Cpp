@@ -69,4 +69,5 @@ public:
 	void m_slideBinary(int slidebinary);
 	void HistoInXY();
 	void HistoOutXY();
+	void Lowpass1();
 };

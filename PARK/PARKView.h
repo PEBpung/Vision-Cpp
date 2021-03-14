@@ -60,6 +60,7 @@ public:
 	afx_msg void OnSlideBin();
 	afx_msg void OnHistoinXy();
 	afx_msg void OnHistoutXy();
+	afx_msg void OnLowpass1();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전
