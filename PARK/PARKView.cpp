@@ -51,6 +51,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_PREWITT_Y, &CPARKView::OnPrewittY)
 	ON_COMMAND(ID_PREWITT, &CPARKView::OnPrewitt)
 	ON_COMMAND(ID_CANNY, &CPARKView::OnCanny)
+	ON_COMMAND(ID_GAUSSLAP, &CPARKView::OnGausslap)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -516,6 +517,18 @@ void CPARKView::OnCanny()
 	ASSERT_VALID(pDoc);
 
 	pDoc->Canny();
+
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnGausslap()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->GaussLap();
 
 	Invalidate(FALSE);
 }

@@ -622,3 +622,43 @@ void CPARKDoc::Canny()
 	}
 
 }
+
+
+void CPARKDoc::GaussLap()
+{
+	int x, y, p, q, div;
+	int sum, Gaussian[3][3] = { {1, 2, 1}, {2, 4, 2}, {1, 2, 1} };
+	int ft[3][3] = { {0, 1, 0}, {1, -4, 1}, {0, 1, 0} };
+
+	div = 0;
+	for (q = 0; q <= 2; q++)
+		for (p = 0; p <= 2; p++)
+			div += Gaussian[q][p];
+
+	for ( y = 0; y < 255; y++)
+	{
+		for ( x = 0; x < 255; x++)
+		{
+			sum = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					sum += Gaussian[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+			m_ImageBuf1[y][x] = sum / div;
+		}
+	}
+
+	for (y = 0; y < 255; y++)
+	{
+		for (x = 0; x < 255; x++)
+		{
+			sum = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					sum += ft[q][p] * m_ImageBuf1[y + q - 1][x + p - 1];
+			if (sum < 0) sum = 0;
+			sum = abs(sum) * 5;
+			if (sum > 255) sum = 255;
+			m_Resultimg[y][x] = sum;
+		}
+	}
+}

@@ -135,13 +135,15 @@
 #define ID_PREWITT                      32807
 #define ID_32808                        32808
 #define ID_CANNY                        32809
+#define ID_32810                        32810
+#define ID_GAUSSLAP                     32811
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        318
-#define _APS_NEXT_COMMAND_VALUE         32810
+#define _APS_NEXT_COMMAND_VALUE         32812
 #define _APS_NEXT_CONTROL_VALUE         1008
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

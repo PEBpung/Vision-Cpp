@@ -74,4 +74,5 @@ public:
 	void PrewittY();
 	void Prewitt();
 	void Canny();
+	void GaussLap();
 };
