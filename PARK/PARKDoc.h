@@ -73,4 +73,5 @@ public:
 	void PrewittX();
 	void PrewittY();
 	void Prewitt();
+	void Canny();
 };

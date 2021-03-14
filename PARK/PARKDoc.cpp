@@ -577,3 +577,48 @@ void CPARKDoc::Prewitt()
 		}
 	}
 }
+
+
+void CPARKDoc::Canny()
+{
+	int x, y, p, q, div;
+	int sum, Gaussian[3][3] = { {1, 2, 1}, {2, 4, 2}, {1, 2, 1} };
+	int sx, ft_x[3][3] = { {-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1} };
+	int sy, ft_y[3][3] = { {-1, -2, -1}, {0, 0, 0}, {1, 2, 1} };
+
+	div = 0;
+	for (q = 0; q <= 2; q++)
+		for (p = 0; p <= 2; p++)
+			div += Gaussian[q][p];
+	for ( y = 0; y < 255; y++)
+	{
+		for ( x = 0; x < 255; x++)
+		{
+			sum = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					sum += Gaussian[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+			m_ImageBuf1[y][x] = sum / div;
+		}
+	}
+	for (y = 0; y < 255; y++)
+	{
+		for (x = 0; x < 255; x++)
+		{
+			sx = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					sx += ft_x[q][p] * m_ImageBuf1[y + q - 1][x + p - 1];
+
+			sy = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					sy += ft_y[q][p] * m_ImageBuf1[y + q - 1][x + p - 1];
+
+			sy = abs(sx) + abs(sy);
+			if (sy > 255) m_Resultimg[y][x] = 255;
+			else m_Resultimg[y][x] = sy;
+		}
+	}
+
+}
