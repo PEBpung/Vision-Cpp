@@ -72,4 +72,5 @@ public:
 	void Lowpass1();
 	void PrewittX();
 	void PrewittY();
+	void Prewitt();
 };

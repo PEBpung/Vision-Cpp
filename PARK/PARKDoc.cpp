@@ -548,3 +548,32 @@ void CPARKDoc::PrewittY()
 		}
 	}
 }
+
+
+void CPARKDoc::Prewitt()
+{
+	int x, y, p, q;
+	int px, ft_x[3][3] = { {-1, 0, 1}, {-1, 0, 1}, {-1, 0, 1} };
+	int py, ft_y[3][3] = { {1, 1, 1}, {0, 0, 0}, {-1, -1, -1} };
+
+
+	for (y = 0; y < 255; y++)
+	{
+		for (x = 0; x < 255; x++)
+		{
+			px = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					px += ft_x[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+
+			py = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					py += ft_y[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+
+			py = abs(px) + abs(py);
+			if (py > 255) m_Resultimg[y][x] = 255;
+			else m_Resultimg[y][x] = py;
+		}
+	}
+}
