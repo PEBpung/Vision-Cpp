@@ -48,6 +48,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_HISTOUT_XY, &CPARKView::OnHistoutXy)
 	ON_COMMAND(ID_LOWPASS1, &CPARKView::OnLowpass1)
 	ON_COMMAND(ID_PREWITT_X, &CPARKView::OnPrewittX)
+	ON_COMMAND(ID_PREWITT_Y, &CPARKView::OnPrewittY)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -477,6 +478,18 @@ void CPARKView::OnPrewittX()
 	ASSERT_VALID(pDoc);
 
 	pDoc->PrewittX();
+
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnPrewittY()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->PrewittY();
 
 	Invalidate(FALSE);
 }

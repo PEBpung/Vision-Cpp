@@ -71,4 +71,5 @@ public:
 	void HistoOutXY();
 	void Lowpass1();
 	void PrewittX();
+	void PrewittY();
 };
