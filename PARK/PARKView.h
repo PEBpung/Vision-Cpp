@@ -71,6 +71,7 @@ public:
 	afx_msg void OnMedian();
 	afx_msg void OnSobel();
 	afx_msg void OnRobert();
+	afx_msg void OnLapla1();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

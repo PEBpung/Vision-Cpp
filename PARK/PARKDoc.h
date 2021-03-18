@@ -81,4 +81,5 @@ public:
 	int Align(int N[], int size);
 	void Soble();
 	void Robert();
+	void Lapla1();
 };
