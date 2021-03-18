@@ -711,3 +711,45 @@ void CPARKDoc::GaussMoth()
 		}
 	}
 }
+
+
+int CPARKDoc::Align(int N[], int size)
+{
+	int temp;
+	int mid;
+	mid = size / 2;   // 마스크의 중앙 위치 계산
+
+	for (int k = 1; k < size; k++) {
+		for (int i = 0; i < size - 1; i++)
+		{
+			if (N[i] > N[i + 1]) {
+				temp = N[i];
+				N[i] = N[i + 1];
+				N[i + 1] = temp;
+			}
+		}
+	}
+
+	return N[mid];
+}
+
+void CPARKDoc::Median()
+{
+	int x, y, q, p, d;
+	int median, filter3[3][3] = { {1, 1, 1}, {1, 1, 1}, {1, 1, 1} };
+	int N[9];
+
+	for (y = 0; y < 255; y++)
+	{
+		for (x = 0; x < 255; x++)
+		{
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					N[q * 3 + p] = filter3[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+			median = Align(N, 9);
+			m_Resultimg[y][x] = median;
+		}
+	}
+
+}
+

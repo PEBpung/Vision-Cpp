@@ -77,4 +77,6 @@ public:
 	void GaussLap();
 	void Lowpass2();
 	void GaussMoth();
+	void Median();
+	int Align(int N[], int size);
 };
