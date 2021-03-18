@@ -781,3 +781,32 @@ void CPARKDoc::Soble()
 		}
 	}
 }
+
+
+void CPARKDoc::Robert()
+{
+	int x, y, p, q;
+	int rx, rb_x[3][3] = { {0, 0, -1}, {0, 1, 0}, {0, 0, 0} };
+	int ry, rb_y[3][3] = { {-1, 0, 0}, {0, 1, 0}, {0, 0, 0} };
+
+
+	for (y = 0; y < 255; y++)
+	{
+		for (x = 0; x < 255; x++)
+		{
+			rx = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					rx += rb_x[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+
+			ry = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					ry += rb_y[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+
+			ry = abs(rx) + abs(ry);
+			if (ry > 255) m_Resultimg[y][x] = 255;
+			else m_Resultimg[y][x] = ry;
+		}
+	}
+}
