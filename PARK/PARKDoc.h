@@ -75,4 +75,5 @@ public:
 	void Prewitt();
 	void Canny();
 	void GaussLap();
+	void Lowpass2();
 };

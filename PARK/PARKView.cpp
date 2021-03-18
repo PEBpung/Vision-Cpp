@@ -52,6 +52,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_PREWITT, &CPARKView::OnPrewitt)
 	ON_COMMAND(ID_CANNY, &CPARKView::OnCanny)
 	ON_COMMAND(ID_GAUSSLAP, &CPARKView::OnGausslap)
+	ON_COMMAND(ID_LOWPASS, &CPARKView::OnLowpass)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -529,6 +530,18 @@ void CPARKView::OnGausslap()
 	ASSERT_VALID(pDoc);
 
 	pDoc->GaussLap();
+
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnLowpass()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Lowpass2();
 
 	Invalidate(FALSE);
 }

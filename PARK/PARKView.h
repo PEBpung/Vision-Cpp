@@ -66,6 +66,7 @@ public:
 	afx_msg void OnPrewitt();
 	afx_msg void OnCanny();
 	afx_msg void OnGausslap();
+	afx_msg void OnLowpass();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

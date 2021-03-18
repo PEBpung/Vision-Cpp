@@ -662,3 +662,27 @@ void CPARKDoc::GaussLap()
 		}
 	}
 }
+
+
+void CPARKDoc::Lowpass2()
+{
+	int x, y, q, p, div;
+	int sum, filter2[3][3] = { {0, 1, 0}, {1, 5, 1}, {0, 1, 0} };
+
+	div = 0;
+	for (q = 0; q <= 2; q++)
+		for (p = 0; p <= 2; p++)
+			div += filter2[q][p];
+
+	for ( y = 0; y < 255; y++)
+	{
+		for ( x = 0; x < 255; x++)
+		{
+			sum = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					sum += filter2[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+			m_Resultimg[y][x] = sum / div;
+		}
+	}
+}
