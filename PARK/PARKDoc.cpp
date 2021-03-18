@@ -686,3 +686,28 @@ void CPARKDoc::Lowpass2()
 		}
 	}
 }
+
+
+void CPARKDoc::GaussMoth()
+{
+	// TODO: 여기에 구현 코드 추가.
+	int x, y, q, p, div;
+	int sum, Gaussian[3][3] = { {1, 2, 1}, {2, 4, 2}, {1, 2, 1} };
+
+	div = 0;
+	for (q = 0; q <= 2; q++)
+		for (p = 0; p <= 2; p++)
+			div += Gaussian[q][p];
+
+	for (y = 0; y < 255; y++)
+	{
+		for (x = 0; x < 255; x++)
+		{
+			sum = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					sum += Gaussian[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+			m_Resultimg[y][x] = sum / div;
+		}
+	}
+}

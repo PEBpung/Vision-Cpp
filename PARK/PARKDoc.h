@@ -76,4 +76,5 @@ public:
 	void Canny();
 	void GaussLap();
 	void Lowpass2();
+	void GaussMoth();
 };
