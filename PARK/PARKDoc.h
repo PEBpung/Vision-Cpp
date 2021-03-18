@@ -84,4 +84,5 @@ public:
 	void Lapla1();
 	void Lapla2();
 	void Emboss();
+	void Sharp();
 };
