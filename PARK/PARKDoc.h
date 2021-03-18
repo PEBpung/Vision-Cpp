@@ -79,4 +79,5 @@ public:
 	void GaussMoth();
 	void Median();
 	int Align(int N[], int size);
+	void Soble();
 };

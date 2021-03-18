@@ -55,6 +55,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_LOWPASS, &CPARKView::OnLowpass)
 	ON_COMMAND(ID_GAUSSMOTH, &CPARKView::OnGaussmoth)
 	ON_COMMAND(ID_MEDIAN, &CPARKView::OnMedian)
+	ON_COMMAND(ID_SOBEL, &CPARKView::OnSobel)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -568,6 +569,18 @@ void CPARKView::OnMedian()
 	ASSERT_VALID(pDoc);
 
 	pDoc->Median();
+
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnSobel()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Soble();
 
 	Invalidate(FALSE);
 }
