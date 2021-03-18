@@ -58,6 +58,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_SOBEL, &CPARKView::OnSobel)
 	ON_COMMAND(ID_ROBERT, &CPARKView::OnRobert)
 	ON_COMMAND(ID_LAPLA1, &CPARKView::OnLapla1)
+	ON_COMMAND(ID_LAPLA2, &CPARKView::OnLapla2)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -607,6 +608,18 @@ void CPARKView::OnLapla1()
 	ASSERT_VALID(pDoc);
 
 	pDoc->Lapla1();
+
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnLapla2()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Lapla2();
 
 	Invalidate(FALSE);
 }

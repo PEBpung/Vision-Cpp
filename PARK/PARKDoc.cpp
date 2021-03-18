@@ -832,3 +832,26 @@ void CPARKDoc::Lapla1()
 		}
 	}
 }
+
+
+void CPARKDoc::Lapla2()
+{
+	// TODO: 여기에 구현 코드 추가.
+	int x, y, q, p;
+	int sum, ft[3][3] = { {1, 1, 1}, {1, -8, 1}, {1, 1, 1} };
+
+	for (y = 0; y < 255; y++)
+	{
+		for (x = 0; x < 255; x++)
+		{
+			sum = 0;
+			for (q = 0; q <= 2; q++)
+				for (p = 0; p <= 2; p++)
+					sum += ft[q][p] * m_OpenImg[y + q - 1][x + p - 1];
+			if (sum < 0) sum = 0;
+			sum = abs(sum);
+			if (sum > 255) sum = 255;
+			m_Resultimg[y][x] = sum;
+		}
+	}
+}

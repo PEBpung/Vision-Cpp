@@ -82,4 +82,5 @@ public:
 	void Soble();
 	void Robert();
 	void Lapla1();
+	void Lapla2();
 };
