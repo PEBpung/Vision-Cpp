@@ -59,6 +59,8 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_ROBERT, &CPARKView::OnRobert)
 	ON_COMMAND(ID_LAPLA1, &CPARKView::OnLapla1)
 	ON_COMMAND(ID_LAPLA2, &CPARKView::OnLapla2)
+	ON_COMMAND(ID_EMBOSS, &CPARKView::OnEmboss)
+	ON_COMMAND(ID_SHARP, &CPARKView::OnSharp)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -620,6 +622,30 @@ void CPARKView::OnLapla2()
 	ASSERT_VALID(pDoc);
 
 	pDoc->Lapla2();
+
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnEmboss()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Emboss();
+
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnSharp()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Sharp();
 
 	Invalidate(FALSE);
 }

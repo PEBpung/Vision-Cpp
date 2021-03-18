@@ -83,4 +83,5 @@ public:
 	void Robert();
 	void Lapla1();
 	void Lapla2();
+	void Emboss();
 };
