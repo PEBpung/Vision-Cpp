@@ -1023,3 +1023,26 @@ void CPARKDoc::ZmoutRn2()
 		}
 	}
 }
+
+
+void CPARKDoc::Rotate()
+{
+	// TODO: 여기에 구현 코드 추가.
+	int x, y, x1, y1;
+	float fx, fy, ct, sn;
+
+	ct = cos(DEG * 3.14159 / 180.0);
+	sn = sin(DEG * 3.14159 / 180.0);
+
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			fx = (float)(x - 128) * ct + (float)(y - 128) * sn;
+			fy = (float)(y - 128) * ct - (float)(x - 128) * sn;
+			x1 = (int)(fx + 0.5) + 128;
+			y1 = (int)(fy + 0.5) + 128;
+			if (x1 >= 0 && x1 < 256 && y1 >= 0 && y1 < 256)
+				m_Resultimg[y][x] = m_OpenImg[y1][x1];
+			else m_Resultimg[y][x] = 0;
+		}
+	}
+}

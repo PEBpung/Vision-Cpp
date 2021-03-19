@@ -65,6 +65,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_ZMIN_RN2, &CPARKView::OnZminRn2)
 	ON_COMMAND(ID_ZMOUT_RN1, &CPARKView::OnZmoutRn1)
 	ON_COMMAND(ID_ZMOUT_RN2, &CPARKView::OnZmoutRn2)
+	ON_COMMAND(ID_ROTATE, &CPARKView::OnRotate)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -725,5 +726,17 @@ void CPARKView::OnZmoutRn2()
 	pDoc->ZmoutRn2();
 
 	zmout = 1;
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnRotate()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Rotate();
+
 	Invalidate(FALSE);
 }

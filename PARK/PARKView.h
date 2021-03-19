@@ -81,6 +81,7 @@ public:
 	afx_msg void OnZminRn2();
 	afx_msg void OnZmoutRn1();
 	afx_msg void OnZmoutRn2();
+	afx_msg void OnRotate();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

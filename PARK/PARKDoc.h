@@ -13,6 +13,9 @@
 #define zmout_x 0.5
 #define zmout_y 0.5 
 
+#include "math.h"
+#define DEG	30
+
 class CPARKDoc : public CDocument
 {
 protected: // serialization에서만 만들어집니다.
@@ -98,4 +101,5 @@ public:
 	void ZminRn2();
 	void ZmoutRn1();
 	void ZmoutRn2();
+	void Rotate();
 };
