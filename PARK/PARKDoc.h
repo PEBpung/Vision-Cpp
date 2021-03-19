@@ -10,6 +10,8 @@
 #define zmin_y 1.7 
 #define small_x 2 
 #define small_y 2 
+#define zmout_x 0.5
+#define zmout_y 0.5 
 
 class CPARKDoc : public CDocument
 {
@@ -95,4 +97,5 @@ public:
 	void ZminRn();
 	void ZminRn2();
 	void ZmoutRn1();
+	void ZmoutRn2();
 };

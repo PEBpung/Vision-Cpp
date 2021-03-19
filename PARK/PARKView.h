@@ -20,6 +20,7 @@ public:
 	int			hinxy;      // 입력 가로세로 히스토그램 표시 플래그
 	int			houtxy;     // 출력 가로세로 히스토그램 표시 플래그
 	int			zoom;
+	int			zmout;
 
 // 재정의입니다.
 public:
@@ -79,6 +80,7 @@ public:
 	afx_msg void OnZminRn();
 	afx_msg void OnZminRn2();
 	afx_msg void OnZmoutRn1();
+	afx_msg void OnZmoutRn2();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전
