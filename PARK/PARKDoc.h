@@ -102,4 +102,5 @@ public:
 	void ZmoutRn1();
 	void ZmoutRn2();
 	void Rotate();
+	void RotateRn();
 };

@@ -165,13 +165,15 @@
 #define ID_ZMOUT_RN2                    32837
 #define ID_32838                        32838
 #define ID_ROTATE                       32839
+#define ID_32840                        32840
+#define ID_ROTATE_RN                    32841
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        318
-#define _APS_NEXT_COMMAND_VALUE         32840
+#define _APS_NEXT_COMMAND_VALUE         32842
 #define _APS_NEXT_CONTROL_VALUE         1008
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
