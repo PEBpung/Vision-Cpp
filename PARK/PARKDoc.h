@@ -4,10 +4,12 @@
 
 
 #pragma once
-#define large_x 2 // 추가
-#define large_y 2 // 추가
-#define zmin_x 1.7 // 추가
-#define zmin_y 1.7 // 추가
+#define large_x 2 
+#define large_y 2 
+#define zmin_x 1.7 
+#define zmin_y 1.7 
+#define small_x 2 
+#define small_y 2 
 
 class CPARKDoc : public CDocument
 {
@@ -91,4 +93,6 @@ public:
 	void Emboss();
 	void Sharp();
 	void ZminRn();
+	void ZminRn2();
+	void ZmoutRn1();
 };

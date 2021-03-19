@@ -77,6 +77,8 @@ public:
 	afx_msg void OnEmboss();
 	afx_msg void OnSharp();
 	afx_msg void OnZminRn();
+	afx_msg void OnZminRn2();
+	afx_msg void OnZmoutRn1();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전
