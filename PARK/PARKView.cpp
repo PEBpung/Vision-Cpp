@@ -61,6 +61,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_LAPLA2, &CPARKView::OnLapla2)
 	ON_COMMAND(ID_EMBOSS, &CPARKView::OnEmboss)
 	ON_COMMAND(ID_SHARP, &CPARKView::OnSharp)
+	ON_COMMAND(ID_ZMIN_RN, &CPARKView::OnZminRn)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -208,6 +209,17 @@ void CPARKView::OnDraw(CDC* pDC)
 
 			pDC->MoveTo(660, y);
 			pDC->LineTo(x + 400, y);
+		}
+	}
+
+	if (zoom == 1) {
+		for (y = 0; y < large_y * 256; y++) {
+			for (int x = 0; x < large_x * 256; x++) {
+				pDC->SetPixel(x + 300, y,
+					RGB(pDoc->m_scaleImg[y][x],
+						pDoc->m_scaleImg[y][x],
+						pDoc->m_scaleImg[y][x]));
+			}
 		}
 	}
 }
@@ -649,3 +661,16 @@ void CPARKView::OnSharp()
 	Invalidate(FALSE);
 }
 
+
+
+void CPARKView::OnZminRn()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->ZminRn();
+
+	zoom = 1;
+	Invalidate(FALSE);
+}

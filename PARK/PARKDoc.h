@@ -4,7 +4,10 @@
 
 
 #pragma once
-
+#define large_x 2 // 추가
+#define large_y 2 // 추가
+#define zmin_x 1.7 // 추가
+#define zmin_y 1.7 // 추가
 
 class CPARKDoc : public CDocument
 {
@@ -30,6 +33,8 @@ public:
 	unsigned int histoinY[256];  // 입력 영상의 가로축 히스토그램
 	unsigned int histoutX[256];  // 출력 영상의 세로축 히스토그램
 	unsigned int histoutY[256];  // 출력 영상의 가로축 히스토그램
+
+	unsigned char m_scaleImg[256 * large_y][256 * large_x];
 
 // 재정의입니다.
 public:
@@ -85,4 +90,5 @@ public:
 	void Lapla2();
 	void Emboss();
 	void Sharp();
+	void ZminRn();
 };

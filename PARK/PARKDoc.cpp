@@ -899,3 +899,25 @@ void CPARKDoc::Sharp()
 		}
 	}
 }
+
+
+void CPARKDoc::ZminRn()
+{
+	// TODO: 여기에 구현 코드 추가.
+	int x, y, x1, y1;
+	float fx, fy;
+	for (y = 0; y < 256 * large_y; y++) {
+		for (x = 0; x < 256 * large_x; x++) {
+			m_scaleImg[y][x] = 255;
+		}
+	}
+	for (y = 0; y < 256 * zmin_y; y++) {
+		fy = (float)y / (float)(zmin_y);
+		y1 = (int)(fy + 0.5);
+		for (x = 0; x < 256 * zmin_x; x++) {
+			fx = (float)x / (float)zmin_x;
+			x1 = (int)(fx + 0.5);
+			m_scaleImg[y][x] = m_OpenImg[y1][x1];
+		}
+	}
+}
