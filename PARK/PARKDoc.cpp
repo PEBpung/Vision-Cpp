@@ -1322,3 +1322,68 @@ void CPARKDoc::Label_p(int x, int y, int lable_no)
 		}
 	}
 }
+
+
+void CPARKDoc::Labelstack()
+{
+	int x, y, top;
+	short l_no = 0, r, c, m, n;
+
+	// 스택으로 사용할 메모리 할당
+	short* stack_x = new short[256 * 256];
+	short* stack_y = new short[256 * 256];
+
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) m_Resultimg[y][x] = 0;
+	}
+
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			// 이미 방문한 점이거나 픽셀값이 255가 아니면 처리하지 않음
+			if (m_OpenImg[y][x] != 255 || m_Resultimg[y][x] != 0) continue;
+			// 새로운 영역에 대한 라벨링 처리
+			r = y;
+			c = x;
+			top = 0;
+			l_no++;
+			while (1) {
+				for (m = r - 1; m <= r + 1; m++) {
+					if (m < 0 || m > 255) continue;
+					for (n = c - 1; n <= c + 1; n++) {
+						if (n < 0 || n > 255) continue;
+						if (m_OpenImg[m][n] != 255 || m_Resultimg[m][n] != 0) continue;
+						m_Resultimg[m][n] = l_no;
+						if (Push(stack_x, stack_y, m, n, &top) == -1) continue;
+					}
+				}
+				if (Pop(stack_x, stack_y, &r, &c, &top) == -1) break;
+			}
+		}
+	}
+	// 결과 영상 라벨값 간격 조정
+	float l_gap = 250.0F / (float)l_no;
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			m_Resultimg[y][x] *= l_gap;
+		}
+	}
+}
+
+
+int CPARKDoc::Push(short* st_x, short* st_y, short xx, short yy, int* top)
+{
+	if (*top >= 65536) return(-1);	// 최대 개수 초과
+	(*top)++;						// 저장 번지 증가
+	st_x[*top] = xx;				// x좌표 저장
+	st_y[*top] = yy;				// y좌표 저장
+	return 0;
+}
+
+int CPARKDoc::Pop(short* st_x, short* st_y, short* xx, short* yy, int* top)
+{
+	if(*top == 0) return(-1);		// 저장값 없음
+	*xx = st_x[*top];				// x좌표 저장
+	*yy = st_y[*top];				// y좌표 저장
+	(*top)--;						// 저장 번지 감소
+	return 0;
+}

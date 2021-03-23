@@ -111,4 +111,7 @@ public:
 	void Closing();
 	void Labeling();
 	void Label_p(int x, int y, int lable_no);
+	void Labelstack();
+	int Push(short* st_x, short* st_y, short xx, short yy, int* top);
+	int Pop(short* st_x, short* st_y, short* xx, short* yy, int* top);
 };
