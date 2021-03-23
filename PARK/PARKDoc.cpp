@@ -1209,3 +1209,33 @@ void CPARKDoc::Opening()
 }
 
 
+
+
+void CPARKDoc::Dilation()
+{
+	int x, y, p, q;
+	int sum;
+
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			m_Resultimg[y][x] = 0;
+		}
+	}
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			if (m_OpenImg[y][x] == 255) {
+				m_Resultimg[y][x] = 255;
+				continue;
+			}
+			sum = 0;
+			for (q = 0; q < 2; q++) {
+				for (p = 0; p < 2; p++) {
+					if (m_OpenImg[y + q - 1][x + p - 1] != 0) sum++;
+				}
+			}
+			if (sum == 0) m_Resultimg[y][x] = 0;
+			// 주변에 하나라도 물체가 있으면 물체로 변환
+			else m_Resultimg[y][x] = 255;
+		}
+	}
+}

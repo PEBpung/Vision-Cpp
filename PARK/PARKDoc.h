@@ -107,4 +107,5 @@ public:
 	void Flip();
 	void Erosion();
 	void Opening();
+	void Dilation();
 };
