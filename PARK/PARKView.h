@@ -88,6 +88,7 @@ public:
 	afx_msg void OnErosion();
 	afx_msg void OnOpening();
 	afx_msg void OnDilation();
+	afx_msg void OnClosing();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

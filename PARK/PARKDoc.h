@@ -108,4 +108,5 @@ public:
 	void Erosion();
 	void Opening();
 	void Dilation();
+	void Closing();
 };
