@@ -85,6 +85,7 @@ public:
 	afx_msg void OnRotateRn();
 	afx_msg void OnMirror();
 	afx_msg void OnFlip();
+	afx_msg void OnErosion();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

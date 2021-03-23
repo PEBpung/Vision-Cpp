@@ -105,4 +105,5 @@ public:
 	void RotateRn();
 	void Mirror();
 	void Flip();
+	void Erosion();
 };
