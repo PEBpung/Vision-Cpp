@@ -1153,3 +1153,59 @@ void CPARKDoc::Erosion()
 		}
 	}
 }
+
+
+void CPARKDoc::Opening()
+{
+	int x, y, p, q;
+	int sum;
+	
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			m_Resultimg[y][x] = 0;
+			m_ImageBuf1[y][x] = 0;
+		}
+	}
+	// STEP1: 침식 연산 수행
+	for (y = 1; y < 255; y++) {
+		for (x = 1; x < 255; x++) {
+			if (m_OpenImg[y][x] == 0) {
+				m_ImageBuf1[y][x] = 0;
+				continue;
+			}
+			sum = 0;
+			for (q = 0; q <= 2; q++) {
+				for (p = 0; p <= 2; p++) {
+					if (m_OpenImg[y + q - 1][x + p - 1] != 0) sum++;
+				}
+			}
+			// 내부점
+			if (sum == 9) m_ImageBuf1[y][x] = 255;
+			// 경계점 또는 고립점
+			else m_ImageBuf1[y][x] = 0;
+		}
+	}
+
+	// STEP2: 팽창 연산 수행
+	for (y = 1; y < 255; y++) { 
+		for (x = 1; x < 255; x++) {
+			// 물체영역이면 255로 처리
+			if (m_ImageBuf1[y][x] == 255) {
+				m_Resultimg[y][x] = 255;
+				continue;
+			}
+			sum = 0;
+			// 배경영역이면 3x3 영역 내 물체의 점들 조사
+			for (q = 0; q <= 2; q++) {
+				for (p = 0; p <= 2; p++) {
+					if (m_ImageBuf1[y + q - 1][x + p - 1] != 0) sum++;
+				}
+			}
+			if (sum == 0) m_Resultimg[y][x] = 0;
+			// 주변에 하나라도 물체가 있으면 물체로 변환
+			else m_Resultimg[y][x] = 255;
+		}
+	}
+}
+
+

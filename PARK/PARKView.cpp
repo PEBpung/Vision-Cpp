@@ -70,6 +70,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_MIRROR, &CPARKView::OnMirror)
 	ON_COMMAND(ID_FLIP, &CPARKView::OnFlip)
 	ON_COMMAND(ID_EROSION, &CPARKView::OnErosion)
+	ON_COMMAND(ID_OPENING, &CPARKView::OnOpening)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -788,5 +789,15 @@ void CPARKView::OnErosion()
 	ASSERT_VALID(pDoc);
 
 	pDoc->Erosion();
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnOpening()
+{
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Opening();
 	Invalidate(FALSE);
 }

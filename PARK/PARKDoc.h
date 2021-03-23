@@ -106,4 +106,5 @@ public:
 	void Mirror();
 	void Flip();
 	void Erosion();
+	void Opening();
 };
