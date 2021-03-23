@@ -1289,3 +1289,36 @@ void CPARKDoc::Closing()
 		}
 	}
 }
+
+
+void CPARKDoc::Labeling()
+{
+	int x, y, l_no = 100;
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			if (m_OpenImg[y][x] == 0) m_Resultimg[y][x] = 0;
+			else m_Resultimg[y][x] = 1;
+		}
+	}
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			if (m_Resultimg[y][x] != 1) continue;
+			Label_p(x, y, l_no);
+			l_no += 5;
+		}
+	}
+}
+
+
+void CPARKDoc::Label_p(int x, int y, int lable_no)
+{
+	int p, q;
+	m_Resultimg[y][x] = lable_no;
+	for (q = y - 1; q <= y + 1; q++) {
+		for (p = x - 1; p <= x + 1; p++) {
+			if (p < 0 || p > 255) continue;
+			if (q < 0 || q > 255) continue;
+			if (m_Resultimg[q][p] == 1) Label_p(p, q, lable_no);
+		}
+	}
+}

@@ -89,6 +89,7 @@ public:
 	afx_msg void OnOpening();
 	afx_msg void OnDilation();
 	afx_msg void OnClosing();
+	afx_msg void OnLabeling();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

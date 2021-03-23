@@ -73,6 +73,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_OPENING, &CPARKView::OnOpening)
 	ON_COMMAND(ID_DILATION, &CPARKView::OnDilation)
 	ON_COMMAND(ID_Closing, &CPARKView::OnClosing)
+	ON_COMMAND(ID_LABELING, &CPARKView::OnLabeling)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -821,5 +822,15 @@ void CPARKView::OnClosing()
 	ASSERT_VALID(pDoc);
 
 	pDoc->Closing();
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnLabeling()
+{
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Labeling();
 	Invalidate(FALSE);
 }

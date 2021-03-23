@@ -109,4 +109,6 @@ public:
 	void Opening();
 	void Dilation();
 	void Closing();
+	void Labeling();
+	void Label_p(int x, int y, int lable_no);
 };
