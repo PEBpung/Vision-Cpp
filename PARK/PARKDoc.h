@@ -104,4 +104,5 @@ public:
 	void Rotate();
 	void RotateRn();
 	void Mirror();
+	void Flip();
 };

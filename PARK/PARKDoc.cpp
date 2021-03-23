@@ -1062,23 +1062,16 @@ void CPARKDoc::RotateRn()
 	for (y = 0; y < 256; y++) {
 		for (x = 0; x < 256; x++) {
 			// 역변환
-			fx = (float)(x - 128) * ct + (float)(y - 128) * sn;
+			fx = (float)(x - 128) * ct + (float)(y - 128) * sn + 128;
 			x1 = (int)fx;
 			x2 = x1 + 1;
 			p = fx - (float)x1;
-			fy = (float)(y - 128) * ct - (float)(x - 128) * sn;
+			fy = (float)(y - 128) * ct - (float)(x - 128) * sn + 128;
 			y1 = (int)fy;
 			y2 = y1 + 1;
 			q = fy - (float)y1;
 
-
-			// 보간처리
 			fd = 0;
-			x1 += 128;
-			x2 += 128;
-			y1 += 128;
-			y2 += 128;
-
 			if (x1 >= 0 && x1 < 256 && y1 >= 0 && y1 < 256)
 				dd = (float)m_OpenImg[y1][x1];
 			else dd = 0;
@@ -1103,7 +1096,6 @@ void CPARKDoc::RotateRn()
 			if (fd > 255.0) fd = 255.0;
 			if (fd < 0) fd = 0;
 			m_Resultimg[y][x] = (unsigned char)fd;
-			
 		}
 	}
 }
@@ -1116,6 +1108,18 @@ void CPARKDoc::Mirror()
 	for (y = 0; y < 256; y++) {
 		for (x = 0; x < 256; x++) {
 			m_Resultimg[y][x] = m_OpenImg[y][255 - x];
+		}
+	}
+}
+
+
+void CPARKDoc::Flip()
+{
+	// TODO: 여기에 구현 코드 추가.
+	int x, y;
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			m_Resultimg[y][x] = m_OpenImg[255 - y][x];
 		}
 	}
 }

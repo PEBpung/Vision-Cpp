@@ -68,6 +68,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_ROTATE, &CPARKView::OnRotate)
 	ON_COMMAND(ID_ROTATE_RN, &CPARKView::OnRotateRn)
 	ON_COMMAND(ID_MIRROR, &CPARKView::OnMirror)
+	ON_COMMAND(ID_FLIP, &CPARKView::OnFlip)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -763,6 +764,18 @@ void CPARKView::OnMirror()
 	ASSERT_VALID(pDoc);
 
 	pDoc->Mirror();
+
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnFlip()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->Flip();
 
 	Invalidate(FALSE);
 }
