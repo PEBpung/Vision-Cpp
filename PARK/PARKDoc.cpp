@@ -1387,3 +1387,144 @@ int CPARKDoc::Pop(short* st_x, short* st_y, short* xx, short* yy, int* top)
 	(*top)--;						// 저장 번지 감소
 	return 0;
 }
+
+
+void CPARKDoc::TrackBorder()
+{
+	// 영역의 경계정보를 저장하기 위한 구조체 메모리
+	typedef struct tagBORDERINFO { 
+		short *x, * y; 
+		short n, dn; 
+	} BORDERINFO;
+
+	BORDERINFO stBorderInfo[1000];
+
+	// 추적점을 임시로 저장하기 위한 메모리
+	short *xchain = new short[10000];
+	short* ychain = new short[10000];
+
+	// 관심 픽셀의 시계방향으로 주위점을 나타내기 위한 좌표 설정
+	const POINT nei[8] = {
+		{0, 1}, {-1, 1}, {-1, 0}, {-1,-1}, {0, -1}, {1, -1}, {1, 0}, {1,1} };
+	int x0, y0, x, y, k, n;
+	int numberBorder = 0, border_count, diagonal_count;
+	unsigned char c0, c1;
+
+	// 영상에 있는 픽셀이 방문된 점인지를 마크하기 위해 영상 메모리 할당
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) m_Resultimg[y][x] = 0;
+	}
+
+	for ( y = 0; y < 256; y++)
+	{
+		for ( x = 0; x < 256; x++)
+		{
+			// 기준 점
+			c0 = m_OpenImg[y][x];
+			// 바로 위의 점
+			c1 = m_OpenImg[y - 1][x];
+			// 경계 판단
+			if (c1 == 0 && c0 != 0 && m_Resultimg[y][x] == 0)
+			{
+				border_count = 0;		// 경계점의 개수를 세기 위한 카운트
+				diagonal_count = 0;		// 대각 방향 연결 화소수
+
+				// 시작점
+				y0 = y;
+				x0 = x;
+				// 시작점에서의 조사 시작 방향
+				n = 6;
+				do
+				{
+					// 관심점 주의에서 같은 색을 가진 경계점을 찾기 위함
+					for ( k = 0; k < 8; k++, n = ((n+1) % 8)) // 01234567 -> 12345670
+					{
+						// 주위 영역으로 변환, v, u
+						short v = (short)(y + nei[n].y);
+						short u = (short)(x + nei[n].x);
+						// 영역에서 벗어나면 재귀.
+						if (u < 0 || u >= 256 || v < 0 || v >= 256)
+							continue;
+						// 초기 좌표와 같으면 탈출.
+						if (m_OpenImg[v][u] == c0) 
+							break;
+					}
+					// MARK 1:: 고립점이라면 탈출
+					if (k == 8)
+						break;
+					// 방문한 점 표시
+					m_Resultimg[y][x] = 255;
+					// 경계점의 좌표를 저장하고 카운트를 늘림.
+					xchain[border_count] = x;
+					ychain[border_count++] = y;
+					// 경계가 10000 이상이면 탈출
+					if (border_count >= 10000) 
+						break;
+					// 다음 방문할 점으로 값 교체
+					x = x + nei[n].x;
+					y = y + nei[n].y;
+					// 대각선 방향 연결 화소수 체크
+					if (n % 2 == 1) 
+						diagonal_count++;
+					// 01234567 -> 56701234, 다음 관심에 대한 순서
+					n = (n + 5) % 8;
+				// 초기 위치로 돌아오게 되면 스탑
+				} while (!(x == x0 && y == y0));
+				// 고립점인 경우 다시 루프를 돈다. (MARK 1에서 왔음)
+				if (k == 8)
+					continue;
+
+				// ---------------------------------
+				// 고립점이 아니라면 영역의 경계정보를 저장
+				// ---------------------------------
+				// 하지만 너무 작은 영역이면 무시한다.
+				if (border_count < 10)
+					continue;
+
+				// 영역 정보를 저장하기 위해서 구조체 속의 변수에 경계 수 만큼 메모리 할당
+				stBorderInfo[numberBorder].x = new short[border_count];
+				stBorderInfo[numberBorder].y = new short[border_count];
+
+				// 위에서 구한 경계수 만큼 돌면서 x와 y좌표를 구조체 배열에 할당.
+				for ( k = 0; k < border_count; k++)
+				{
+					stBorderInfo[numberBorder].x[k] = xchain[k];
+					stBorderInfo[numberBorder].y[k] = ychain[k];
+				}
+				// 마찬가지로 경계점 개수와 대각선 개수를 저장시킴.
+				stBorderInfo[numberBorder].n = border_count;
+				stBorderInfo[numberBorder++].dn = diagonal_count;
+
+				// 영역의 총 개수는 1000이하로 설정시킴 초과되면 탈출.
+				if (numberBorder >= 1000)
+					break;
+			}
+		}
+	}
+	// 영역의 면적을 Text 정보로 출력한다. 디버깅시에만 동작
+	CString tempStr;
+	TRACE("\r\n\r\n[ Border Following ]\r\n--------------------\r\n");
+
+	// 화면에 경계를 출력하기 위해 m_ResultImg 배열을 이용.
+	memset(m_Resultimg, 255, 256 * 256 * sizeof(unsigned char));
+
+	for ( k = 0; k < numberBorder; k++)
+	{
+		TRACE("(%d: %d %d, %d)\r\n", k, stBorderInfo[k].n, stBorderInfo[k].dn,
+			(int)(1.4142F * stBorderInfo[k].dn) + (stBorderInfo[k].n - stBorderInfo[k].dn));
+
+		// 결과영상 출력처리
+		for (int i = 0; i < stBorderInfo[k].n; i++) {
+			x = stBorderInfo[k].x[i];
+			y = stBorderInfo[k].y[i];
+			m_Resultimg[y][x] = 0;
+		}
+	}
+	// 사용이 끝난 동적 메모리를 닫아준다. 
+	for (k = 0; k < numberBorder; k++) {
+		delete[]stBorderInfo[k].x;
+		delete[]stBorderInfo[k].y;
+	}
+	delete[]xchain;
+	delete[]ychain;
+}

@@ -114,4 +114,5 @@ public:
 	void Labelstack();
 	int Push(short* st_x, short* st_y, short xx, short yy, int* top);
 	int Pop(short* st_x, short* st_y, short* xx, short* yy, int* top);
+	void TrackBorder();
 };

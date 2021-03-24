@@ -91,6 +91,7 @@ public:
 	afx_msg void OnClosing();
 	afx_msg void OnLabeling();
 	afx_msg void OnLabelstack();
+	afx_msg void OnTrackborder();
 };
 
 #ifndef _DEBUG  // PARKView.cpp의 디버그 버전

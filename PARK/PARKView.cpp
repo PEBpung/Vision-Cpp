@@ -75,6 +75,7 @@ BEGIN_MESSAGE_MAP(CPARKView, CView)
 	ON_COMMAND(ID_Closing, &CPARKView::OnClosing)
 	ON_COMMAND(ID_LABELING, &CPARKView::OnLabeling)
 	ON_COMMAND(ID_LABELSTACK, &CPARKView::OnLabelstack)
+	ON_COMMAND(ID_TRACKBORDER, &CPARKView::OnTrackborder)
 END_MESSAGE_MAP()
 
 // CPARKView 생성/소멸
@@ -843,5 +844,15 @@ void CPARKView::OnLabelstack()
 	ASSERT_VALID(pDoc);
 
 	pDoc->Labelstack();
+	Invalidate(FALSE);
+}
+
+
+void CPARKView::OnTrackborder()
+{
+	CPARKDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->TrackBorder();
 	Invalidate(FALSE);
 }
