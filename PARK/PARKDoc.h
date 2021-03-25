@@ -115,4 +115,6 @@ public:
 	int Push(short* st_x, short* st_y, short xx, short yy, int* top);
 	int Pop(short* st_x, short* st_y, short* xx, short* yy, int* top);
 	void TrackBorder();
+	void Filling();
+	int floodfill(int x, int y, int color, int m_ImageBuf1[][256]);
 };
