@@ -1532,202 +1532,72 @@ void CPARKDoc::TrackBorder()
 
 void CPARKDoc::Filling()
 {
-	// 영역의 경계정보를 저장하기 위한 구조체 메모리
-	typedef struct tagBORDERINFO {
-		short* x, * y;
-		short n, dn, center_x, center_y;
-	} BORDERINFO;
-
-	BORDERINFO stBorderInfo[1000];
-
 	// 추적점을 임시로 저장하기 위한 메모리
 	int* xchain = new int[50000];
 	int* ychain = new int[50000];
 
-	// 관심 픽셀의 시계방향으로 주위점을 나타내기 위한 좌표 설정
-	const POINT nei[8] = {
-		{0, 1}, {-1, 1}, {-1, 0}, {-1,-1}, {0, -1}, {1, -1}, {1, 0}, {1,1} };
-	int x0, y0, x, y, k, n;
-	int numberBorder = 0, border_count, diagonal_count;
-	unsigned char c0, c1;
+	int x0, y0, x, y, k;
+
+	unsigned char c0, c1, c2;
+
+	int top = 0;
+	int r, c;
+	int count;
 
 	// 영상에 있는 픽셀이 방문된 점인지를 마크하기 위해 영상 메모리 할당
 	for (y = 0; y < 256; y++) {
-		for (x = 0; x < 256; x++) m_ImageBuf1[y][x] = 0;
+		for (x = 0; x < 256; x++) m_Resultimg[y][x] = m_OpenImg[y][x];
 	}
 
 	for (y = 0; y < 256; y++)
 	{
-		for (x = 0; x < 256; x++)
+		bool flag = FALSE;
+		int before = 0;
+		for (x = 5; x < 255; x++)
 		{
 			// 기준 점
 			c0 = m_OpenImg[y][x];
-			// 바로 위의 점
-			c1 = m_OpenImg[y - 1][x];
+			// 왼쪽 첫번째 점
+			c1 = m_OpenImg[y][x - 1];
+			// 왼쪽 두번째 점
+			c2 = m_OpenImg[y][x - 2];
+
+			if (c2 != 0 && c1 == 0 && c0 != 0)
+				flag = !flag;
+
 			// 경계 판단
-			if (c1 == 0 && c0 != 0 && m_ImageBuf1[y][x] == 0)
+			if (flag == FALSE && m_Resultimg[y][x] == 255)
 			{
-				border_count = 0;		// 경계점의 개수를 세기 위한 카운트
-				diagonal_count = 0;		// 대각 방향 연결 화소수
+				count = 0;
+				floodfill(x + 1, y, m_Resultimg, xchain, ychain, &count);
 
-				// 시작점
-				y0 = y;
-				x0 = x;
-				// 시작점에서의 조사 시작 방향
-				n = 6;
-				do
+				for (k = 0; k < count; k++)
 				{
-					// 관심점 주의에서 같은 색을 가진 경계점을 찾기 위함
-					for (k = 0; k < 8; k++, n = ((n + 1) % 8)) // 01234567 -> 12345670
-					{
-						// 주위 영역으로 변환, v, u
-						short v = (short)(y + nei[n].y);
-						short u = (short)(x + nei[n].x);
-						// 영역에서 벗어나면 재귀.
-						if (u < 0 || u >= 256 || v < 0 || v >= 256)
-							continue;
-						// 초기 좌표와 같으면 탈출.
-						if (m_OpenImg[v][u] == c0)
-							break;
-					}
-					// MARK 1:: 고립점이라면 탈출
-					if (k == 8)
-						break;
-					// 방문한 점 표시
-					m_ImageBuf1[y][x] = 255;
-					// 경계점의 좌표를 저장하고 카운트를 늘림.
-					xchain[border_count] = x;
-					ychain[border_count++] = y;
-					// 경계가 10000 이상이면 탈출
-					if (border_count >= 10000)
-						break;
-					// 다음 방문할 점으로 값 교체
-					x = x + nei[n].x;
-					y = y + nei[n].y;
-					// 대각선 방향 연결 화소수 체크
-					if (n % 2 == 1)
-						diagonal_count++;
-					// 01234567 -> 56701234, 다음 관심에 대한 순서
-					n = (n + 5) % 8;
-					// 초기 위치로 돌아오게 되면 스탑
-				} while (!(x == x0 && y == y0));
-				// 고립점인 경우 다시 루프를 돈다. (MARK 1에서 왔음)
-				if (k == 8)
-					continue;
-
-				// ---------------------------------
-				// 고립점이 아니라면 영역의 경계정보를 저장
-				// ---------------------------------
-				// 하지만 너무 작은 영역이면 무시한다.
-				if (border_count < 10)
-					continue;
-
-				// 영역 정보를 저장하기 위해서 구조체 속의 변수에 경계 수 만큼 메모리 할당
-				stBorderInfo[numberBorder].x = new short[border_count];
-				stBorderInfo[numberBorder].y = new short[border_count];
-
-				int sum_x = 0;
-				int sum_y = 0;
-
-				// 위에서 구한 경계수 만큼 돌면서 x와 y좌표를 구조체 배열에 할당.
-				for (k = 0; k < border_count; k++)
-				{
-					sum_x += xchain[k];
-					sum_y += ychain[k];
-					stBorderInfo[numberBorder].x[k] = xchain[k];
-					stBorderInfo[numberBorder].y[k] = ychain[k];
+					r = xchain[k];
+					c = ychain[k];
+					if (r < 0 || r >= 255 || c < 0 || c >= 255)
+						continue;
+					m_Resultimg[c][r] = 0;
 				}
-				// 마찬가지로 경계점 개수와 대각선 개수를 저장시킴.
-				stBorderInfo[numberBorder].center_x = (short)(sum_x / border_count);
-				stBorderInfo[numberBorder].center_y = (short)(sum_y / border_count);
-				stBorderInfo[numberBorder].n = border_count;
-				stBorderInfo[numberBorder++].dn = diagonal_count;
 
-				// 영역의 총 개수는 1000이하로 설정시킴 초과되면 탈출.
-				if (numberBorder >= 1000)
-					break;
 			}
 		}
 	}
 
-	int top = 0;
-	short r, c;
-	r = 1;
-	c = 1;
-
-	/*while (true)
-	{
-		// 스택으로 사용할 메모리 할당
-		const POINT pos[4] = { { 0, 1 }, { -1, 0 }, { 0, -1 },  { 1, 0 } };
-
-		short* d_x = new short[256 * 256];
-		short* d_y = new short[256 * 256];
-
-		for (int i = 0; i < 4; i++) {
-			short m = (short)(r + pos[i].y);
-			short n = (short)(c + pos[i].x);
-
-			if (n < 0 || n >= 255 || m < 0 || m >= 255 || m_Resultimg[m][n] == 255)
-				continue;
-
-			xchain[count] = n;
-			ychain[count++] = m;
-
-			if (Push(d_x, d_y, m, n, &top) == -1) continue;
-		}
-
-		if (Pop(d_x, d_y, &r, &c, &top) == -1) break;
-	}*/
-	memset(xchain, 0, 50000);
-	memset(ychain, 0, 50000);
-	int temp_x, temp_y;
-	int count;
-
-
-	// 화면에 경계를 출력하기 위해 m_ResultImg 배열을 이용.
-	memset(m_Resultimg, 255, 256 * 256 * sizeof(unsigned char));
-
-	for (int i = 0; i < numberBorder; i++) {
-		count = 0;
-
-		temp_x = stBorderInfo[i].center_x;
-		temp_y = stBorderInfo[i].center_y;
-
-		floodfill(temp_x, temp_y, m_ImageBuf1, xchain, ychain, &count);
-
-		for (k = 0; k < count; k++)
-		{
-			x = xchain[k];
-			y = ychain[k];
-			if (x < 0 || x >= 255 || y < 0 || y >= 255)
-				continue;
-			m_Resultimg[y][x] = 0;
-		}
-	}
-	
-
-
-	// 사용이 끝난 동적 메모리를 닫아준다. 
-	for (k = 0; k < numberBorder; k++) {
-		delete[]stBorderInfo[k].x;
-		delete[]stBorderInfo[k].y;
-	}
 	delete[]xchain;
 	delete[]ychain;
-
-	
 }
 
 int CPARKDoc::floodfill(int x, int y, unsigned char image[][256], int* xchain, int* ychain, int* count)
 {
-	if (x < 0 || x >= 256 || y < 0 || y >= 256 || image[y][x] == 255)
+	if (x < 0 || x >= 256 || y < 0 || y >= 256 || image[y][x] == 0)
 		return NULL;
 
 	else
 	{
 		if (*count >= 4000)
 			return NULL;	// 최대 개수 초과
-		image[y][x] = 255;
+		//image[y][x] = 0;
 
 		xchain[*count] = x;
 		ychain[(*count)++] = y;
@@ -1737,10 +1607,4 @@ int CPARKDoc::floodfill(int x, int y, unsigned char image[][256], int* xchain, i
 	floodfill(x - 1, y, image, xchain, ychain, count);
 	floodfill(x, y + 1, image, xchain, ychain, count);
 	floodfill(x, y - 1, image, xchain, ychain, count);
-
-	/*floodfill(x + 1, y + 1, color, image, xchain, ychain, count);
-	floodfill(x - 1, y - 1, color, image, xchain, ychain, count);
-	floodfill(x - 1, y + 1, color, image, xchain, ychain, count);
-	floodfill(x + 1, y - 1, color, image, xchain, ychain, count);*/
 }
-

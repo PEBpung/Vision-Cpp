@@ -867,3 +867,4 @@ void CPARKView::OnFilling()
 	pDoc->Filling();
 	Invalidate(FALSE);
 }
+
