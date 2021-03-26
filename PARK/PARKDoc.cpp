@@ -1541,8 +1541,8 @@ void CPARKDoc::Filling()
 	BORDERINFO stBorderInfo[1000];
 
 	// 추적점을 임시로 저장하기 위한 메모리
-	short* xchain = new short[10000];
-	short* ychain = new short[10000];
+	int* xchain = new int[50000];
+	int* ychain = new int[50000];
 
 	// 관심 픽셀의 시계방향으로 주위점을 나타내기 위한 좌표 설정
 	const POINT nei[8] = {
@@ -1650,58 +1650,63 @@ void CPARKDoc::Filling()
 		}
 	}
 
-	int top, i;
+	int top = 0;
 	short r, c;
-	const POINT dir[4] = {
-		{0, 1}, {-1, 0}, {0, -1}, {1, 0} };
+	r = 1;
+	c = 1;
 
-	for ( i = 0; i < numberBorder; i++)
+	/*while (true)
 	{
-		TRACE("\r\n\r\n---------%d 번째  호출--------\r\n", i);
-		// 초기 세팅
-		r = stBorderInfo[i].center_y;
-		c = stBorderInfo[i].center_x;
+		// 스택으로 사용할 메모리 할당
+		const POINT pos[4] = { { 0, 1 }, { -1, 0 }, { 0, -1 },  { 1, 0 } };
 
-		short* stack_x = new short[256 * 256];
-		short* stack_y = new short[256 * 256];
+		short* d_x = new short[256 * 256];
+		short* d_y = new short[256 * 256];
 
-		top = 0;
+		for (int i = 0; i < 4; i++) {
+			short m = (short)(r + pos[i].y);
+			short n = (short)(c + pos[i].x);
 
-		n = 6;
-		int num = 0;
-		while(1)
+			if (n < 0 || n >= 255 || m < 0 || m >= 255 || m_Resultimg[m][n] == 255)
+				continue;
+
+			xchain[count] = n;
+			ychain[count++] = m;
+
+			if (Push(d_x, d_y, m, n, &top) == -1) continue;
+		}
+
+		if (Pop(d_x, d_y, &r, &c, &top) == -1) break;
+	}*/
+	memset(xchain, 0, 50000);
+	memset(ychain, 0, 50000);
+	int temp_x, temp_y;
+	int count;
+
+
+	// 화면에 경계를 출력하기 위해 m_ResultImg 배열을 이용.
+	memset(m_Resultimg, 255, 256 * 256 * sizeof(unsigned char));
+
+	for (int i = 0; i < numberBorder; i++) {
+		count = 0;
+
+		temp_x = stBorderInfo[i].center_x;
+		temp_y = stBorderInfo[i].center_y;
+
+		floodfill(temp_x, temp_y, m_ImageBuf1, xchain, ychain, &count);
+
+		for (k = 0; k < count; k++)
 		{
-			for (k = 0; k < 4; k++, n = ((n + 1) % 4))
-			{
-				// 주위 영역으로 변환, v, u
-				short v = (short)(r + dir[n].y);
-				short u = (short)(c + dir[n].x);
-
-				// 영역에서 벗어나면 다시.
-				if (u < 0 || u >= 256 || v < 0 || v >= 256)
-					continue;
-				// 이미 방문했으면 탈출.
-				if (m_Resultimg[v][u] == 255)
-				{
-					break;
-				}
-				else {
-					m_Resultimg[v][u] = 255;
-					if (Push(stack_x, stack_y, v, u, &top) == -1) continue; 
-						TRACE("\r\n\r\nFILST\r\n--------(top: %d )\r\n", top);
-				}
-			}
-			n = (n + 5) % 8;
-			
-			if (Pop(stack_x, stack_y, &r, &c, &top) == -1) {
-				TRACE("\r\n\r\nSECOND\r\n--------(top: %d )\r\n", top);
-				break;
-			}
-			
-			num++;
-		} 
+			x = xchain[k];
+			y = ychain[k];
+			if (x < 0 || x >= 255 || y < 0 || y >= 255)
+				continue;
+			m_Resultimg[y][x] = 0;
+		}
 	}
 	
+
+
 	// 사용이 끝난 동적 메모리를 닫아준다. 
 	for (k = 0; k < numberBorder; k++) {
 		delete[]stBorderInfo[k].x;
@@ -1709,21 +1714,33 @@ void CPARKDoc::Filling()
 	}
 	delete[]xchain;
 	delete[]ychain;
+
+	
 }
 
-
-int CPARKDoc::floodfill(int x, int y, int color, int m_ImageBuf1[][256])
+int CPARKDoc::floodfill(int x, int y, unsigned char image[][256], int* xchain, int* ychain, int* count)
 {
-	if (color < 0) {
-		color = 0;
+	if (x < 0 || x >= 256 || y < 0 || y >= 256 || image[y][x] == 255)
+		return NULL;
+
+	else
+	{
+		if (*count >= 4000)
+			return NULL;	// 최대 개수 초과
+		image[y][x] = 255;
+
+		xchain[*count] = x;
+		ychain[(*count)++] = y;
 	}
 
-	if (x < 0 || x >= 256 || y < 0 || y >= 256 || m_ImageBuf1[x][y] == 255)
-		return m_Resultimg[x][y];
+	floodfill(x + 1, y, image, xchain, ychain, count);
+	floodfill(x - 1, y, image, xchain, ychain, count);
+	floodfill(x, y + 1, image, xchain, ychain, count);
+	floodfill(x, y - 1, image, xchain, ychain, count);
 
-	m_Resultimg[x][y] = color;
-	floodfill(x + 1, y, color, m_ImageBuf1);
-	floodfill(x - 1, y, color, m_ImageBuf1);
-	floodfill(x, y + 1, color, m_ImageBuf1);
-	floodfill(x, y - 1, color, m_ImageBuf1);
+	/*floodfill(x + 1, y + 1, color, image, xchain, ychain, count);
+	floodfill(x - 1, y - 1, color, image, xchain, ychain, count);
+	floodfill(x - 1, y + 1, color, image, xchain, ychain, count);
+	floodfill(x + 1, y - 1, color, image, xchain, ychain, count);*/
 }
+

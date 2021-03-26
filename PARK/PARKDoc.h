@@ -116,5 +116,5 @@ public:
 	int Pop(short* st_x, short* st_y, short* xx, short* yy, int* top);
 	void TrackBorder();
 	void Filling();
-	int floodfill(int x, int y, int color, int m_ImageBuf1[][256]);
+	int floodfill(int x, int y, unsigned char image[][256], int* xchain, int* ychain, int* count);
 };
